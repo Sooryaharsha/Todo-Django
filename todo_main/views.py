@@ -1,6 +1,12 @@
 
+from http.client import HTTPResponse
 from django.shortcuts import render
+from todos.models import Task
 
 
 def home(request):
-    return render(request,'home.html')
+    tasks = Task.objects.filter(is_completed = False).order_by('-modified_at')
+    context = {
+        'tasks' : tasks,
+    }
+    return render(request,'home.html',context)
